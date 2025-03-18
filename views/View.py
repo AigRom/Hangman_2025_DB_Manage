@@ -31,7 +31,7 @@ class View(Tk):
         self.__lbl_old_categories, self.__combo_categories = self.create_combobox()
 
         # Nupud
-        self.__btn_add, self.__btn_edit, self.__btn_delete = self.create_buttons()
+        self.__btn_add, self.__btn_edit, self.__btn_delete, self.__btn_open = self.create_buttons()
 
         self.create_table()
 
@@ -87,15 +87,17 @@ class View(Tk):
         Loob kolm nuppu CRUD jaoks. Antud juhul: CUD (Create, Update, Delete)
         :return: btn_1, btn_2, btn_3
         """
-        btn_1 = Button(self.__frame_right, text='Liisa')
-        btn_2 = Button(self.__frame_right, text='Muda')
-        btn_3 = Button(self.__frame_right, text='Kusduda')
+        btn_1 = Button(self.__frame_right, text='Lisa')
+        btn_2 = Button(self.__frame_right, text='Muuda')
+        btn_3 = Button(self.__frame_right, text='Kustuta')
+        btn_4 = Button(self.__frame_right, text='Ava')  # Uus nupp
 
         btn_1.grid(row=0, column=1, padx=1, sticky=EW)
         btn_2.grid(row=1, column=2, padx=1, sticky=EW)
         btn_3.grid(row=0, column=2, padx=1, sticky=EW)
+        btn_4.grid(row=1, column=1, padx=1, sticky=EW)  # Paigutame "Lisa" nupu alla
 
-        return btn_1, btn_2, btn_3
+        return btn_1, btn_2, btn_3, btn_4
 
     def create_combobox(self):
         """
@@ -105,12 +107,23 @@ class View(Tk):
         label = Label(self.__frame_top, text='Vana kategooria', background='lightblue', font=('Verdana', 10, 'bold'))
         label.grid(row=1, column=0, pady=5, sticky=EW)
 
-        combo = Combobox(self.__frame_top)
-        combo['values'] = ('Vali kategooria', 'Hooned', 'Loomad', 'Sõidukid') # Näidis
-        combo.current(0)
-        combo.grid(row=1, column=1, padx=4, sticky=EW)
+        #combo = Combobox(self.__frame_top)
+        #combo['values'] = ('Vali kategooria', 'Hooned', 'Loomad', 'Sõidukid') # Näidis
+        #combo.current(0)
+        #combo.grid(row=1, column=1, padx=4, sticky=EW)
+        self.__combo_categories = Combobox(self.__frame_top)
+        self.__combo_categories.grid(row=1, column=1, padx=4, sticky=EW)
 
-        return label, combo
+        return label, self.__combo_categories
+        #return label, combo
+
+    def update_category_list(self, categories):
+        """
+        Värskendab rippmenüü valikuid andmebaasi kategooriatega.
+        :param categories: List kategooriatest
+        """
+        self.__combo_categories['values'] = ['Vali kategooria'] + categories
+        self.__combo_categories.current(0)  # Seadistame esimese valiku
 
     def create_table(self):
         """
@@ -176,3 +189,35 @@ class View(Tk):
         :return: Entry objekt
         """
         return self.__txt_word
+
+    @property
+    def get_btn_add(self):
+        """
+        Tagastab 'Lisa' nupu objekti
+        :return: Button objekt
+        """
+        return self.__btn_add
+
+    @property
+    def get_btn_edit(self):
+        """
+        Tagastab 'Muuda' nupu objekti
+        :return: Button objekt
+        """
+        return self.__btn_edit
+
+    @property
+    def get_btn_delete(self):
+        """
+        Tagastab 'Kustuta' nupu objekti
+        :return: Button objekt
+        """
+        return self.__btn_delete
+
+    @property
+    def get_btn_open(self):
+        """
+        Tagastab 'Ava' nupu objekti
+        :return: Button objekt
+        """
+        return self.__btn_open
